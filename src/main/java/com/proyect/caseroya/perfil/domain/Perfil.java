@@ -1,4 +1,4 @@
-package com.proyect.caseroya.entity;
+package com.proyect.caseroya.perfil.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;

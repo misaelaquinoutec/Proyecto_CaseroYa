@@ -27,15 +27,19 @@ Este es el repositorio central del backend de **CaseroYa**. El proyecto está es
 
 ---
 
-## 🛠 Arquitectura y Plantilla a seguir
+## 🛠 Arquitectura y Plantilla a seguir (Por Módulos / DDD)
 
-Trabajaremos haciendo **"Rebanadas Verticales" (Vertical Slices)**. Esto significa que si tienes a cargo la tabla `Cliente`, tú debes crear todos estos archivos:
-1. `entity/Cliente.java` (El mapeo de la base de datos).
-2. `repository/ClienteRepository.java` (La interfaz con Spring Data JPA).
-3. `service/ClienteService.java` (La lógica del negocio).
-4. `controller/ClienteController.java` (Los endpoints `/api/clientes`).
+Hemos cambiado a una **arquitectura agrupada por módulos (Feature-based / Hexagonal ligera)**. Esto significa que los archivos no se separan en grandes carpetas genéricas (todos los controllers juntos), sino que cada "módulo" (ej. `perfil`, `auth`, `ventas`) tiene su propio mundo por dentro.
 
-> **💡 TIP:** Hemos dejado un CRUD completo de la tabla `Perfil` en el código. Úsalo como plantilla (copia su estructura) para entender cómo deben verse tus propios controladores, servicios, repositorios y entidades.
+Si tienes a cargo la tabla `Perfil`, tu estructura debe verse exactamente así:
+`src/main/java/com/proyect/caseroya/perfil/`
+1. `domain/Perfil.java` (Tu entidad / modelo)
+2. `domain/PerfilService.java` (Lógica de negocio)
+3. `infrastructure/PerfilRepository.java` (Comunicación con BD)
+4. `application/PerfilController.java` (Endpoints de la API)
+5. `dto/` (Para tus objetos de petición/respuesta, ej. `PerfilRequestDto`)
+
+> **💡 TIP:** Ya hemos dejado el CRUD completo de la tabla `Perfil` bajo esta nueva estructura. Úsalo como plantilla (copia su estructura) para crear tus propios módulos (`ventas`, `clientes`, `productos`, etc).
 
 ---
 
