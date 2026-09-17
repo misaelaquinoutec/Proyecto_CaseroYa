@@ -23,7 +23,7 @@ public class PerfilController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Perfil> obtenerPorId(@PathVariable Integer id) {
+    public ResponseEntity<Perfil> obtenerPorId(@PathVariable String id) {
         return ResponseEntity.ok(perfilService.obtenerPorId(id));
     }
 
@@ -33,14 +33,14 @@ public class PerfilController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Perfil> actualizar(@PathVariable Integer id, @RequestBody Perfil perfil) {
+    public ResponseEntity<Perfil> actualizar(@PathVariable String id, @RequestBody Perfil perfil) {
         Perfil perfilExistente = perfilService.obtenerPorId(id);
         perfilExistente.setNombrePerfil(perfil.getNombrePerfil());
         return ResponseEntity.ok(perfilService.guardar(perfilExistente));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<Void> eliminar(@PathVariable String id) {
         perfilService.eliminar(id);
         return ResponseEntity.noContent().build();
     }

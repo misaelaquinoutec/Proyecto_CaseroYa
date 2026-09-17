@@ -18,7 +18,7 @@ public class PerfilService {
         return perfilRepository.findAll();
     }
 
-    public Perfil obtenerPorId(Integer id) {
+    public Perfil obtenerPorId(String id) {
         return perfilRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Perfil no encontrado con ID: " + id));
     }
@@ -27,7 +27,7 @@ public class PerfilService {
         return perfilRepository.save(perfil);
     }
 
-    public void eliminar(Integer id) {
+    public void eliminar(String id) {
         perfilRepository.deleteById(id);
     }
 }
