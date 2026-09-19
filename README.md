@@ -25,6 +25,19 @@ Este es el repositorio central del backend de **CaseroYa**. El proyecto está es
    - Desde consola (Linux/Mac): `set -a; source .env; set +a; ./mvnw spring-boot:run`
    - En IntelliJ: Instalar plugin *EnvFile* o poner las variables en "Environment variables".
 
+4. **Desarrollo Local con Docker (Opcional pero recomendado):**
+   Si prefieres no usar la base de datos de Supabase mientras programas, puedes levantar una base de datos local usando Docker. 
+   - Ejecuta: `docker compose up -d`
+   - Cambia temporalmente tu archivo `.env` por estas credenciales locales:
+     ```env
+     DB_URL=jdbc:postgresql://localhost:5432/caseroya_db
+     DB_USER=postgres
+     DB_PASSWORD=super_password_local
+     ```
+   - **Para ver la base de datos:** 
+     - Si usas **pgAdmin** (viene incluido en el Docker): Entra a `http://localhost:5050` (Usuario: `admin@caseroya.com` / Pass: `admin`). Al registrar el server usa el Host: `postgres-db`.
+     - Si usas **DBeaver, DataGrip u otro cliente**: Conéctate a `localhost` en el puerto `5432` con usuario `postgres` y clave `super_password_local`.
+
 ---
 
 ## 🛠 Arquitectura y Plantilla a seguir (Por Módulos / DDD)

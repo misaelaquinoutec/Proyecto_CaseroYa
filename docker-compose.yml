@@ -1,0 +1,30 @@
+services:
+  # Base de datos PostgreSQL local
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: caseroya-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: super_password_local
+      POSTGRES_DB: caseroya_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - caseroya_data:/var/lib/postgresql/data
+
+  # Opcional: pgAdmin (Interfaz gráfica web para ver la BD)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: caseroya-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@caseroya.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres-db
+
+volumes:
+  caseroya_data:
