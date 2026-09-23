@@ -2,6 +2,8 @@ package com.proyect.caseroya.auth.domain;
 
 import com.proyect.caseroya.auth.dto.AuthResponseDto;
 import com.proyect.caseroya.auth.dto.LoginRequestDto;
+import com.proyect.caseroya.exception.CredencialesInvalidasException;
+import com.proyect.caseroya.exception.UsuarioNoEncontradoException;
 import com.proyect.caseroya.usuario.domain.Usuario;
 import com.proyect.caseroya.usuario.infrastructure.UsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -17,13 +19,12 @@ public class AuthService {
 
     public AuthResponseDto login(LoginRequestDto request) {
         Usuario usuario = usuarioRepository.findByCodigoUsuarioAndActivoTrue(request.getCodigoUsuario())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado o inactivo"));
+                .orElseThrow(() -> new UsuarioNoEncontradoException("Usuario no encontrado o inactivo: " + request.getCodigoUsuario()));
 
         if (!usuario.getClave().equals(request.getClave())) {
-            throw new RuntimeException("Contraseña incorrecta");
+            throw new CredencialesInvalidasException("La contraseña es incorrecta.");
         }
 
-        // Aquí se puede generar un JWT si lo usas más adelante; por ahora enviamos datos básicos
         return new AuthResponseDto("DUMMY_TOKEN_SESSION", usuario.getCodigoUsuario(), usuario.getNombre(), usuario.getPerfilId());
     }
 }

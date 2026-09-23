@@ -3,8 +3,8 @@ package com.proyect.caseroya.cliente.domain;
 import com.proyect.caseroya.cliente.dto.ClienteRequestDto;
 import com.proyect.caseroya.cliente.dto.ClienteResponseDto;
 import com.proyect.caseroya.cliente.infrastructure.ClienteRepository;
-import com.proyect.caseroya.config.exception.DocumentoDuplicadoException;
-import com.proyect.caseroya.config.exception.RecursoNoEncontradoException;
+import com.proyect.caseroya.exception.DocumentoDuplicadoException;
+import com.proyect.caseroya.exception.RecursoNoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

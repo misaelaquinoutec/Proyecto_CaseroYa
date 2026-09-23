@@ -1,4 +1,4 @@
-package com.proyect.caseroya.config.exception;
+package com.proyect.caseroya.exception;
 
 public class RecursoNoEncontradoException extends RuntimeException {
     public RecursoNoEncontradoException(String mensaje) {
