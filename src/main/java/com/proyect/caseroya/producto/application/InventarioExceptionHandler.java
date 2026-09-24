@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 
-// Este manejador se aplica únicamente a los dos controladores del módulo.
 @RestControllerAdvice(assignableTypes = {ProductoController.class, StockController.class})
 public class InventarioExceptionHandler {
 

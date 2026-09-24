@@ -33,4 +33,26 @@ public class StockService {
                         HttpStatus.NOT_FOUND, "No existe un registro de stock para el producto: " + productoId
                 ));
     }
+    public ControlStock disminuirStock(Integer productoId, java.math.BigDecimal cantidad) {
+        if (productoId == null || productoId <= 0) {
+            throw new ResponseStatusException(
+                    org.springframework.http.HttpStatus.BAD_REQUEST, "El id del producto debe ser un entero positivo."
+            );
+        }
+        if (cantidad == null || cantidad.compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            throw new ResponseStatusException(
+                    org.springframework.http.HttpStatus.BAD_REQUEST, "La cantidad a restar debe ser mayor a cero."
+            );
+        }
+
+        boolean actualizado = stockRepository.disminuirStock(productoId, cantidad);
+
+        if (!actualizado) {
+            throw new ResponseStatusException(
+                    org.springframework.http.HttpStatus.BAD_REQUEST, "Stock insuficiente o producto no encontrado."
+            );
+        }
+
+        return obtenerPorProducto(productoId);
+    }
 }

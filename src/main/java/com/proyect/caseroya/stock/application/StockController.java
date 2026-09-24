@@ -26,4 +26,13 @@ public class StockController {
     public ResponseEntity<ControlStock> obtenerPorProducto(@PathVariable("idProducto") Integer idProducto) {
         return ResponseEntity.ok(stockService.obtenerPorProducto(idProducto));
     }
+
+    @PutMapping("/{idProducto}/restar")
+    public ResponseEntity<ControlStock> disminuirStock(
+            @PathVariable("idProducto") Integer idProducto,
+            @RequestParam("cantidad") java.math.BigDecimal cantidad) {
+
+        ControlStock stockActualizado = stockService.disminuirStock(idProducto, cantidad);
+        return ResponseEntity.ok(stockActualizado);
+    }
 }

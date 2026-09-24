@@ -33,4 +33,11 @@ public class StockRepository {
                 "SELECT * FROM public.fn_control_stock_obtener_por_producto(?)", MAPPER, productoId
         ).stream().findFirst();
     }
+    public boolean disminuirStock(Integer productoId, java.math.BigDecimal cantidad) {
+        Boolean actualizado = jdbcTemplate.queryForObject(
+                "SELECT public.fn_control_stock_disminuir(?, ?)",
+                Boolean.class, productoId, cantidad
+        );
+        return Boolean.TRUE.equals(actualizado);
+    }
 }
