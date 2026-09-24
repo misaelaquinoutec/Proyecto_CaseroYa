@@ -2,27 +2,26 @@ package com.proyect.caseroya.auth.dto;
 
 public class AuthResponseDto {
     private String token;
-    private String codigoUsuario;
-    private String nombre;
-    private String perfilId;
+    private String mensaje;
 
-    public AuthResponseDto(String token, String codigoUsuario, String nombre, String perfilId) {
+    public AuthResponseDto(String token, String mensaje) {
         this.token = token;
-        this.codigoUsuario = codigoUsuario;
-        this.nombre = nombre;
-        this.perfilId = perfilId;
+        this.mensaje = mensaje;
     }
 
-    // Getters y Setters
-    public String getToken() { return token; }
-    public void setToken(String token) { this.token = token; }
+    public String getToken() {
+        return token;
+    }
 
-    public String getCodigoUsuario() { return codigoUsuario; }
-    public void setCodigoUsuario(String codigoUsuario) { this.codigoUsuario = codigoUsuario; }
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getMensaje() {
+        return mensaje;
+    }
 
-    public String getPerfilId() { return perfilId; }
-    public void setPerfilId(String perfilId) { this.perfilId = perfilId; }
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
 }

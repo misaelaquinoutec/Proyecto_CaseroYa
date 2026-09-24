@@ -2,29 +2,36 @@ package com.proyect.caseroya.auth.domain;
 
 import com.proyect.caseroya.auth.dto.AuthResponseDto;
 import com.proyect.caseroya.auth.dto.LoginRequestDto;
-import com.proyect.caseroya.exception.CredencialesInvalidasException;
-import com.proyect.caseroya.exception.UsuarioNoEncontradoException;
+import com.proyect.caseroya.config.JwtService;
 import com.proyect.caseroya.usuario.domain.Usuario;
 import com.proyect.caseroya.usuario.infrastructure.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public AuthService(UsuarioRepository usuarioRepository) {
+    public AuthService(UsuarioRepository usuarioRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtService jwtService) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public AuthResponseDto login(LoginRequestDto request) {
         Usuario usuario = usuarioRepository.findByCodigoUsuarioAndActivoTrue(request.getCodigoUsuario())
-                .orElseThrow(() -> new UsuarioNoEncontradoException("Usuario no encontrado o inactivo: " + request.getCodigoUsuario()));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado o inactivo"));
 
-        if (!usuario.getClave().equals(request.getClave())) {
-            throw new CredencialesInvalidasException("La contraseña es incorrecta.");
+        if (!passwordEncoder.matches(request.getClave(), usuario.getClave())) {
+            throw new RuntimeException("Contraseña incorrecta");
         }
 
-        return new AuthResponseDto("DUMMY_TOKEN_SESSION", usuario.getCodigoUsuario(), usuario.getNombre(), usuario.getPerfilId());
+        String token = jwtService.generarToken(usuario.getCodigoUsuario());
+        return new AuthResponseDto(token, "Login exitoso");
     }
 }
