@@ -40,4 +40,11 @@ public class StockRepository {
         );
         return Boolean.TRUE.equals(actualizado);
     }
+    public boolean aumentarStock(Integer productoId, java.math.BigDecimal cantidad) {
+        Boolean actualizado = jdbcTemplate.queryForObject(
+                "SELECT public.fn_control_stock_aumentar(?, ?)", 
+                Boolean.class, productoId, cantidad
+        );
+        return Boolean.TRUE.equals(actualizado);
+    }
 }
