@@ -51,4 +51,10 @@ public class VentaController {
     public ResponseEntity<DocumentoVenta> obtenerVenta(@PathVariable Integer id) {
         return ResponseEntity.ok(ventaService.obtenerPorId(id));
     }
+
+    @PutMapping("/{id}/anular")
+    public ResponseEntity<Void> anularVenta(@PathVariable Integer id) {
+        ventaService.anularVenta(id);
+        return ResponseEntity.noContent().build();
+    }
 }
