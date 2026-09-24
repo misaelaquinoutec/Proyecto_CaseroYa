@@ -51,6 +51,10 @@ public class DocumentoVenta {
     @Column(precision = 12, scale = 2)
     private BigDecimal total;
 
+    @Column(name = "anulado", nullable = false)
+    @Builder.Default
+    private boolean anulado = false;
+
     @OneToMany(mappedBy = "documentoVenta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleVenta> detalles = new ArrayList<>();
 

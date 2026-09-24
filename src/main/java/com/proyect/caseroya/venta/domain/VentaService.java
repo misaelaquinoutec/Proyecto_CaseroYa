@@ -46,8 +46,28 @@ public class VentaService {
         return ventaRepository.save(venta);
     }
 
+    @Transactional
+    public void anularVenta(Integer id) {
+        DocumentoVenta venta = obtenerPorId(id);
+        if (venta.isAnulado()) {
+            throw new RuntimeException("La venta ya se encuentra anulada.");
+        }
+
+        // Devolver stock al inventario
+        for (DetalleVenta detalle : venta.getDetalles()) {
+            stockService.aumentarStock(detalle.getProductoId(), detalle.getCantidad());
+        }
+
+        venta.setAnulado(true);
+        ventaRepository.save(venta);
+    }
+
     public DocumentoVenta obtenerPorId(Integer id) {
         return ventaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la venta con ID: " + id));
+    }
+
+    public java.util.List<DocumentoVenta> obtenerReportePorFechas(LocalDate desde, LocalDate hasta) {
+        return ventaRepository.findByFechaEmisionBetween(desde, hasta);
     }
 }
