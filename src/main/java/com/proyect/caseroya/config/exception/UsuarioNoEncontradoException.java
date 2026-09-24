@@ -1,4 +1,4 @@
-package com.proyect.caseroya.exception;
+package com.proyect.caseroya.config.exception;
 
 public class UsuarioNoEncontradoException extends RuntimeException {
     public UsuarioNoEncontradoException(String mensaje) {

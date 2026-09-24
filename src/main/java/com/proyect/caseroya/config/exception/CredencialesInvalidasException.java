@@ -1,4 +1,4 @@
-package com.proyect.caseroya.exception;
+package com.proyect.caseroya.config.exception;
 
 public class CredencialesInvalidasException extends RuntimeException {
     public CredencialesInvalidasException(String mensaje) {

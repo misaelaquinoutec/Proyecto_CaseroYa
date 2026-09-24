@@ -1,4 +1,4 @@
-package com.proyect.caseroya.exception;
+package com.proyect.caseroya.config.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

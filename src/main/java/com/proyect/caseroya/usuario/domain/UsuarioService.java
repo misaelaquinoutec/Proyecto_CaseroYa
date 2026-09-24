@@ -1,7 +1,7 @@
 package com.proyect.caseroya.usuario.domain;
 
-import com.proyect.caseroya.exception.CredencialesInvalidasException;
-import com.proyect.caseroya.exception.UsuarioNoEncontradoException;
+import com.proyect.caseroya.config.exception.CredencialesInvalidasException;
+import com.proyect.caseroya.config.exception.UsuarioNoEncontradoException;
 import com.proyect.caseroya.usuario.dto.UsuarioRequestDto;
 import com.proyect.caseroya.usuario.dto.UsuarioResponseDto;
 import com.proyect.caseroya.usuario.infrastructure.UsuarioRepository;
