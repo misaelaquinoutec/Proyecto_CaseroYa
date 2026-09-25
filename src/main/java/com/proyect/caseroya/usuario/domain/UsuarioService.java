@@ -5,6 +5,7 @@ import com.proyect.caseroya.config.exception.UsuarioNoEncontradoException;
 import com.proyect.caseroya.usuario.dto.UsuarioRequestDto;
 import com.proyect.caseroya.usuario.dto.UsuarioResponseDto;
 import com.proyect.caseroya.usuario.infrastructure.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,9 +16,11 @@ import java.util.stream.Collectors;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UsuarioResponseDto> obtenerTodos() {
@@ -38,7 +41,7 @@ public class UsuarioService {
         }
         Usuario usuario = new Usuario();
         usuario.setCodigoUsuario(dto.getCodigoUsuario());
-        usuario.setClave(dto.getClave());
+        usuario.setClave(passwordEncoder.encode(dto.getClave()));
         usuario.setNombre(dto.getNombre());
         usuario.setPerfilId(dto.getPerfilId());
         usuario.setActivo(true);

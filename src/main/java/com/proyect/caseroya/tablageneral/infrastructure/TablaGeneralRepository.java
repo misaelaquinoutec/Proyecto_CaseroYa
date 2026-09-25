@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface TablaGeneralRepository extends JpaRepository<TablaGeneral, Integer> {
 
-    // Permite filtrar catálogos por tipo (ej: ?tipo=MO, ?tipo=TD, ?tipo=CAT, ?tipo=UM)
     List<TablaGeneral> findByTipo(String tipo);
 
     boolean existsByTipoAndCodigo(String tipo, String codigo);

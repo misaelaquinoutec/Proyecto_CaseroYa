@@ -15,7 +15,6 @@ public class OpcionMenuDto {
         this.orden = orden;
     }
 
-    // Getters y Setters
     public String getOpcionId() { return opcionId; }
     public void setOpcionId(String opcionId) { this.opcionId = opcionId; }
 

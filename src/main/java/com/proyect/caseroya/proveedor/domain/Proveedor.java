@@ -29,10 +29,8 @@ public class Proveedor {
     @Column(name = "activo", nullable = false)
     private Boolean activo = true;
 
-    // Constructor vacío
     public Proveedor() {}
 
-    // Getters y Setters
     public Integer getId() {
         return id;
     }

@@ -50,7 +50,6 @@ public class ProveedorService {
         Proveedor proveedor = proveedorRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Proveedor no encontrado con id: " + id));
 
-        // Si cambió el RUC, validar que no le pertenezca a otro proveedor
         if (!proveedor.getRuc().equals(request.getRuc()) &&
                 proveedorRepository.existsByRuc(request.getRuc())) {
             throw new DocumentoDuplicadoException("El RUC ya pertenece a otro proveedor: " + request.getRuc());
