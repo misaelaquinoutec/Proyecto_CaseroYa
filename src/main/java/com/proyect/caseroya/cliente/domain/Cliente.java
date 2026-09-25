@@ -31,7 +31,6 @@ public class Cliente {
 
     public Cliente() {}
 
-    // Getters y Setters
     public Integer getId() {
         return id;
     }

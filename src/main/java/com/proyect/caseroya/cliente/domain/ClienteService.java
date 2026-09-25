@@ -50,7 +50,6 @@ public class ClienteService {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Cliente no encontrado con id: " + id));
 
-        // Si cambió el documento, verificar que no esté repetido en otro registro
         if (!cliente.getNumeroDocumento().equals(request.getNumeroDocumento()) &&
                 clienteRepository.existsByNumeroDocumento(request.getNumeroDocumento())) {
             throw new DocumentoDuplicadoException("El número de documento ya pertenece a otro cliente: " + request.getNumeroDocumento());

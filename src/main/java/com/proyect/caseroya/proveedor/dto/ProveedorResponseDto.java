@@ -10,7 +10,6 @@ public class ProveedorResponseDto {
     private String direccion;
     private Boolean activo;
 
-    // Getters y Setters
     public Integer getId() {
         return id;
     }

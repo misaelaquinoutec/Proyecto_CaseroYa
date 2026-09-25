@@ -53,7 +53,6 @@ public class VentaService {
             throw new RuntimeException("La venta ya se encuentra anulada.");
         }
 
-        // Devolver stock al inventario
         for (DetalleVenta detalle : venta.getDetalles()) {
             stockService.aumentarStock(detalle.getProductoId(), detalle.getCantidad());
         }

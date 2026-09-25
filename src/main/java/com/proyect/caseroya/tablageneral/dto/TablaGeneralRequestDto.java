@@ -6,7 +6,6 @@ public class TablaGeneralRequestDto {
     private String codigo;
     private String descripcion;
 
-    // Getters y Setters
     public String getTipo() {
         return tipo;
     }

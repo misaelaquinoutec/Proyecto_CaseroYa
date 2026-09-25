@@ -50,7 +50,6 @@ public class CompraService {
         compra.setTotal(subtotal.add(igv));
         compra.setAnulado(false);
 
-        // Guardar primero asegura que un fallo de stock revierta también el documento por la transacción.
         DocumentoCompra guardada = compraRepository.save(compra);
         for (DetalleCompra detalle : guardada.getDetalles()) {
             stockService.aumentarStock(detalle.getProductoId(), detalle.getCantidad());
