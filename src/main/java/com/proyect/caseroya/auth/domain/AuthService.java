@@ -29,7 +29,7 @@ public class AuthService {
             throw new RuntimeException("Contraseña incorrecta");
         }
 
-        String jwtToken = jwtService.generateToken(usuario.getCodigoUsuario());
+        String jwtToken = jwtService.generateToken(usuario.getCodigoUsuario(), usuario.getPerfilId());
         return new AuthResponseDto(jwtToken, usuario.getCodigoUsuario(), usuario.getNombre(), usuario.getPerfilId());
     }
 }

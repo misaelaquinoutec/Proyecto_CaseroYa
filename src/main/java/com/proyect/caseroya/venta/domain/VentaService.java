@@ -21,6 +21,9 @@ public class VentaService {
     @Autowired
     private StockService stockService;
 
+    @Autowired
+    private org.springframework.context.ApplicationEventPublisher eventPublisher;
+
     @Transactional
     public DocumentoVenta registrarVenta(DocumentoVenta venta) {
         venta.setFechaEmision(LocalDate.now());
@@ -43,7 +46,11 @@ public class VentaService {
         venta.setIgv(igvCalculado);
         venta.setTotal(totalCalculado);
 
-        return ventaRepository.save(venta);
+        DocumentoVenta ventaGuardada = ventaRepository.save(venta);
+        
+        eventPublisher.publishEvent(new VentaCreadaEvent(this, ventaGuardada.getId(), ventaGuardada.getNumeroDocumento(), ventaGuardada.getTotal()));
+        
+        return ventaGuardada;
     }
 
     @Transactional

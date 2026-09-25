@@ -3,6 +3,7 @@ package com.proyect.caseroya.usuario.domain;
 import com.proyect.caseroya.usuario.dto.UsuarioRequestDto;
 import com.proyect.caseroya.usuario.dto.UsuarioResponseDto;
 import com.proyect.caseroya.usuario.infrastructure.UsuarioRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, ApplicationEventPublisher eventPublisher) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.eventPublisher = eventPublisher;
     }
 
     public List<UsuarioResponseDto> obtenerTodos() {
@@ -38,6 +41,9 @@ public class UsuarioService {
         usuario.setFechaCreacion(LocalDateTime.now());
 
         Usuario guardado = usuarioRepository.save(usuario);
+        
+        eventPublisher.publishEvent(new UsuarioCreadoEvent(this, guardado.getCodigoUsuario(), guardado.getNombre()));
+        
         return new UsuarioResponseDto(guardado.getCodigoUsuario(), guardado.getNombre(), guardado.getPerfilId(), guardado.getActivo());
     }
 }

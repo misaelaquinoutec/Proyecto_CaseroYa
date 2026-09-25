@@ -9,10 +9,12 @@ import com.proyect.caseroya.venta.domain.VentaService;
 import com.proyect.caseroya.venta.dto.VentaRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/ventas")
+@PreAuthorize("hasRole('ADMIN') or hasRole('CAJERO')")
 public class VentaController {
 
     @Autowired
