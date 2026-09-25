@@ -8,7 +8,6 @@ public class ClienteRequestDto {
     private String telefono;
     private String direccion;
 
-    // Getters y Setters
     public String getNombre() {
         return nombre;
     }

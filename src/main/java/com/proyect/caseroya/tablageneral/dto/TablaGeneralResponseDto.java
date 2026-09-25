@@ -7,7 +7,6 @@ public class TablaGeneralResponseDto {
     private String codigo;
     private String descripcion;
 
-    // Getters y Setters
     public Integer getId() {
         return id;
     }

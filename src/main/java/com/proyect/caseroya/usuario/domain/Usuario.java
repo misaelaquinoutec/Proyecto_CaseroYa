@@ -37,7 +37,6 @@ public class Usuario {
 
     public Usuario() {}
 
-    // Getters y Setters
     public String getCodigoUsuario() { return codigoUsuario; }
     public void setCodigoUsuario(String codigoUsuario) { this.codigoUsuario = codigoUsuario; }
 

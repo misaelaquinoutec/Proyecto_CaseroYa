@@ -20,10 +20,8 @@ public class TablaGeneral {
     @Column(name = "descripcion", nullable = false, length = 100)
     private String descripcion;
 
-    // Constructor vacío
     public TablaGeneral() {}
 
-    // Getters y Setters
     public Integer getId() {
         return id;
     }

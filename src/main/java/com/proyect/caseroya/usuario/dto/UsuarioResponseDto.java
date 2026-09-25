@@ -13,7 +13,6 @@ public class UsuarioResponseDto {
         this.activo = activo;
     }
 
-    // Getters y Setters
     public String getCodigoUsuario() { return codigoUsuario; }
     public void setCodigoUsuario(String codigoUsuario) { this.codigoUsuario = codigoUsuario; }
 
