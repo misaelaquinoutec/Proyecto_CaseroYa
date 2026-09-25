@@ -1,34 +1,46 @@
 package com.proyect.caseroya.venta.domain;
 
+import com.proyect.caseroya.config.exception.DocumentoAnuladoException;
 import com.proyect.caseroya.config.exception.RecursoNoEncontradoException;
-import com.proyect.caseroya.venta.infrastructure.DocumentoVentaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.proyect.caseroya.stock.domain.StockService;
+import com.proyect.caseroya.venta.infrastructure.DocumentoVentaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class VentaService {
 
-    @Autowired
-    private DocumentoVentaRepository ventaRepository;
+    private final DocumentoVentaRepository ventaRepository;
+    private final StockService stockService;
 
-    @Autowired
-    private StockService stockService;
+    public VentaService(DocumentoVentaRepository ventaRepository, StockService stockService) {
+        this.ventaRepository = ventaRepository;
+        this.stockService = stockService;
+    }
 
     @Transactional
     public DocumentoVenta registrarVenta(DocumentoVenta venta) {
+        if (venta.getDetalles() == null || venta.getDetalles().isEmpty()) {
+            throw new IllegalArgumentException("La venta debe incluir al menos un detalle.");
+        }
+
         venta.setFechaEmision(LocalDate.now());
+        venta.setAnulado(false);
 
         BigDecimal subtotalSinIgv = BigDecimal.ZERO;
 
         for (DetalleVenta detalle : venta.getDetalles()) {
-            BigDecimal subtotalLinea = detalle.getCantidad().multiply(detalle.getPrecioUnitario());
+            if (detalle.getCantidad() == null || detalle.getCantidad().compareTo(BigDecimal.ZERO) <= 0
+                    || detalle.getPrecioUnitario() == null || detalle.getPrecioUnitario().compareTo(BigDecimal.ZERO) < 0) {
+                throw new IllegalArgumentException("Cada detalle requiere cantidad positiva y precio válido.");
+            }
+
+            BigDecimal subtotalLinea = detalle.getCantidad().multiply(detalle.getPrecioUnitario()).setScale(2, RoundingMode.HALF_UP);
             detalle.setSubtotal(subtotalLinea);
             subtotalSinIgv = subtotalSinIgv.add(subtotalLinea);
 
@@ -49,8 +61,9 @@ public class VentaService {
     @Transactional
     public void anularVenta(Integer id) {
         DocumentoVenta venta = obtenerPorId(id);
+
         if (venta.isAnulado()) {
-            throw new RuntimeException("La venta ya se encuentra anulada.");
+            throw new DocumentoAnuladoException("La venta ya se encuentra anulada.");
         }
 
         for (DetalleVenta detalle : venta.getDetalles()) {
@@ -61,12 +74,14 @@ public class VentaService {
         ventaRepository.save(venta);
     }
 
+    @Transactional(readOnly = true)
     public DocumentoVenta obtenerPorId(Integer id) {
         return ventaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la venta con ID: " + id));
     }
 
-    public java.util.List<DocumentoVenta> obtenerReportePorFechas(LocalDate desde, LocalDate hasta) {
+    @Transactional(readOnly = true)
+    public List<DocumentoVenta> obtenerReportePorFechas(LocalDate desde, LocalDate hasta) {
         return ventaRepository.findByFechaEmisionBetween(desde, hasta);
     }
 }

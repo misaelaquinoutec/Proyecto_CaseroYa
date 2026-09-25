@@ -1,4 +1,9 @@
 package com.proyect.caseroya.venta.infrastructure;
 
-public class DetalleVentaRepository {
+import com.proyect.caseroya.venta.domain.DetalleVenta;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Integer> {
 }

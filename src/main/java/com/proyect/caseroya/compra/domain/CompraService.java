@@ -1,8 +1,9 @@
 package com.proyect.caseroya.compra.domain;
 
+import com.proyect.caseroya.config.exception.DocumentoAnuladoException;
 import com.proyect.caseroya.config.exception.RecursoNoEncontradoException;
-import com.proyect.caseroya.stock.domain.StockService;
 import com.proyect.caseroya.compra.infrastructure.DocumentoCompraRepository;
+import com.proyect.caseroya.stock.domain.StockService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +68,7 @@ public class CompraService {
     public void anularCompra(Integer id) {
         DocumentoCompra compra = obtenerPorId(id);
         if (compra.isAnulado()) {
-            throw new IllegalStateException("La compra ya se encuentra anulada.");
+            throw new DocumentoAnuladoException("La compra ya se encuentra anulada.");
         }
         for (DetalleCompra detalle : compra.getDetalles()) {
             stockService.disminuirStock(detalle.getProductoId(), detalle.getCantidad());
