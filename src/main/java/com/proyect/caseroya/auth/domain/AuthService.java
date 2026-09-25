@@ -2,7 +2,7 @@ package com.proyect.caseroya.auth.domain;
 
 import com.proyect.caseroya.auth.dto.AuthResponseDto;
 import com.proyect.caseroya.auth.dto.LoginRequestDto;
-import com.proyect.caseroya.config.JwtService;
+import com.proyect.caseroya.config.security.JwtService; // <-- Este import faltaba
 import com.proyect.caseroya.usuario.domain.Usuario;
 import com.proyect.caseroya.usuario.infrastructure.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
