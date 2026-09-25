@@ -2,8 +2,10 @@ package com.proyect.caseroya.venta.domain;
 
 import com.proyect.caseroya.config.exception.DocumentoAnuladoException;
 import com.proyect.caseroya.config.exception.RecursoNoEncontradoException;
+import com.proyect.caseroya.event.VentaRealizadaEvent;
 import com.proyect.caseroya.stock.domain.StockService;
 import com.proyect.caseroya.venta.infrastructure.DocumentoVentaRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +19,14 @@ public class VentaService {
 
     private final DocumentoVentaRepository ventaRepository;
     private final StockService stockService;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public VentaService(DocumentoVentaRepository ventaRepository, StockService stockService) {
+    public VentaService(DocumentoVentaRepository ventaRepository,
+                        StockService stockService,
+                        ApplicationEventPublisher eventPublisher) {
         this.ventaRepository = ventaRepository;
         this.stockService = stockService;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -55,7 +61,12 @@ public class VentaService {
         venta.setIgv(igvCalculado);
         venta.setTotal(totalCalculado);
 
-        return ventaRepository.save(venta);
+        DocumentoVenta ventaGuardada = ventaRepository.save(venta);
+
+        // Disparar evento asíncrono
+        eventPublisher.publishEvent(new VentaRealizadaEvent(ventaGuardada.getId(), "SISTEMA"));
+
+        return ventaGuardada;
     }
 
     @Transactional
