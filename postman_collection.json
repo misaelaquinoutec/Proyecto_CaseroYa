@@ -1,0 +1,444 @@
+{
+  "info": {
+    "name": "CaseroYa API Completa",
+    "description": "Colección completa con todos los endpoints de los 5 módulos del proyecto CaseroYa.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Seguridad (Auth & Usuarios)",
+      "description": "Módulo del Integrante 1. Maneja la autenticación y gestión de usuarios.",
+      "item": [
+        {
+          "name": "Login (Captura Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if(jsonData.token) {",
+                  "    pm.collectionVariables.set(\"jwt_token\", jsonData.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"codigoUsuario\": \"ADMIN01\",\n    \"clave\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Importante: Este endpoint verifica credenciales, devuelve un JWT y lo guarda automáticamente en las variables de Postman para las siguientes peticiones."
+          }
+        },
+        {
+          "name": "Crear Usuario",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"codigoUsuario\": \"CAJERO02\",\n    \"clave\": \"secreta\",\n    \"nombre\": \"Maria Perez\",\n    \"perfilId\": \"CAJERO\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/usuarios",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios"
+              ]
+            },
+            "description": "Crea un nuevo empleado. La contraseña será encriptada con BCrypt automáticamente por el backend."
+          }
+        },
+        {
+          "name": "Listar Usuarios",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/usuarios",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Catálogos",
+      "description": "Módulo del Integrante 2.",
+      "item": [
+        {
+          "name": "Crear Cliente",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"tipoDocumentoId\": 1,\n    \"numeroDocumento\": \"74185296\",\n    \"nombreRazonSocial\": \"Juan Perez\",\n    \"direccion\": \"Av. Los Pinos 123\",\n    \"telefono\": \"987654321\",\n    \"correo\": \"juan@mail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/clientes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar Clientes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/clientes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Proveedor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ruc\": \"20123456789\",\n    \"razonSocial\": \"Coca Cola SA\",\n    \"direccion\": \"Av. Central 444\",\n    \"telefono\": \"01444555\",\n    \"contacto\": \"Carlos Ruiz\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/proveedores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "proveedores"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Inventario",
+      "description": "Módulo del Integrante 3.",
+      "item": [
+        {
+          "name": "Crear Producto",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Gaseosa 3L\",\n    \"descripcion\": \"Bebida carbonatada\",\n    \"precioBase\": 10.00,\n    \"categoriaId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/productos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "productos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Ver Stock Actual",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/stock",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stock"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Ventas",
+      "description": "Módulo del Integrante 4.",
+      "item": [
+        {
+          "name": "Registrar Venta",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"clienteId\": 1,\n    \"usuarioId\": \"ADMIN01\",\n    \"monedaId\": 1,\n    \"detalles\": [\n        {\n            \"productoId\": 1,\n            \"cantidad\": 2.0,\n            \"precioUnitario\": 15.5\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/ventas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ventas"
+              ]
+            },
+            "description": "Registra una venta, calcula IGV y resta stock automáticamente. Emite evento asíncrono para enviar correo."
+          }
+        },
+        {
+          "name": "Anular Venta",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/ventas/1/anular",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ventas",
+                "1",
+                "anular"
+              ]
+            },
+            "description": "Anula una venta y devuelve el stock al inventario."
+          }
+        },
+        {
+          "name": "Reporte de Ventas por Fecha",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/reportes/ventas?desde=2026-01-01&hasta=2026-12-31",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reportes",
+                "ventas"
+              ],
+              "query": [
+                {
+                  "key": "desde",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "hasta",
+                  "value": "2026-12-31"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Compras",
+      "description": "Módulo del Integrante 5.",
+      "item": [
+        {
+          "name": "Registrar Compra (Ingreso de Stock)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"proveedorId\": 1,\n    \"usuarioId\": \"ADMIN01\",\n    \"detalles\": [\n        {\n            \"productoId\": 1,\n            \"cantidad\": 50.0,\n            \"costoUnitario\": 8.0\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/compras",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "compras"
+              ]
+            },
+            "description": "Registra una compra a proveedor y aumenta el stock disponible."
+          }
+        }
+      ]
+    }
+  ]
+}

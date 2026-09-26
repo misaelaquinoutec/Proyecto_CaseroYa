@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @EnableAsync
 @SpringBootApplication
+@EnableAsync
 public class CaseroyaApplication {
 
 	public static void main(String[] args) {
