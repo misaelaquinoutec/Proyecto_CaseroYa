@@ -1,27 +1,17 @@
 package com.proyect.caseroya.auth.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthResponseDto {
     private String token;
-    private String mensaje;
-
-    public AuthResponseDto(String token, String mensaje) {
-        this.token = token;
-        this.mensaje = mensaje;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
+    private String codigoUsuario;
+    private String nombre;
+    private String rol;
 }
