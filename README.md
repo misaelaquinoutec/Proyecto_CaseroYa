@@ -257,3 +257,6 @@ En las próximas versiones, planeamos implementar:
   - Spring Framework Official Documentation (2026).
   - Baeldung Java & Spring Tutorials.
   - JWT.io Documentation.
+
+
+**Link de Deployment (Render):** https://caseroya-backend.onrender.com
