@@ -1,5 +1,6 @@
 package com.proyect.caseroya.venta.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.proyect.caseroya.producto.domain.Producto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +20,7 @@ public class DetalleVenta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "documento_venta_id")
     private DocumentoVenta documentoVenta;
