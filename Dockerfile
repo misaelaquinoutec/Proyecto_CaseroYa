@@ -1,17 +1,19 @@
-FROM eclipse-temurin:21-jdk-alpine AS build
-WORKDIR /workspace/app
+FROM eclipse-temurin:26-jdk-noble AS build
+WORKDIR /build
+COPY .mvn/ .mvn/
+COPY mvnw pom.xml ./
+COPY src/ src/
 
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-COPY src src
+RUN sed -i 's/\r$//' mvnw \
+    && chmod +x mvnw \
+    && ./mvnw -B -ntp -DskipTests package \
+    && cp target/caseroya-*.jar /build/app.jar
 
-RUN chmod +x mvnw
-RUN ./mvnw install -DskipTests
-
-FROM eclipse-temurin:21-jre-alpine
-VOLUME /tmp
-COPY --from=build /workspace/app/target/*.jar app.jar
-
+FROM eclipse-temurin:26-jre-noble
+WORKDIR /app
+COPY --from=build /build/app.jar /app/app.jar
+ENV SPRING_PROFILES_ACTIVE=prod \
+    JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=60.0"
+USER 10001:10001
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

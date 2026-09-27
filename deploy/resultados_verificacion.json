@@ -1,0 +1,126 @@
+[
+  {
+    "prueba": "Salud publica y BD disponible",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "Productos exige token",
+    "esperado": 401,
+    "obtenido": 401,
+    "ok": true
+  },
+  {
+    "prueba": "Token malformado rechazado",
+    "esperado": 401,
+    "obtenido": 401,
+    "ok": true
+  },
+  {
+    "prueba": "Usuarios no admite acceso anonimo",
+    "esperado": 401,
+    "obtenido": 401,
+    "ok": true
+  },
+  {
+    "prueba": "Registro de usuarios no es publico",
+    "esperado": 401,
+    "obtenido": 401,
+    "ok": true
+  },
+  {
+    "prueba": "Clave incorrecta devuelve 401",
+    "esperado": 401,
+    "obtenido": 401,
+    "ok": true
+  },
+  {
+    "prueba": "Login real con BCrypt y JWT",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "Login de usuario sin privilegios",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "Productos consulta funciones SQL",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "Stock consulta funciones SQL",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "Usuario comun no lista cuentas",
+    "esperado": 403,
+    "obtenido": 403,
+    "ok": true
+  },
+  {
+    "prueba": "Usuario comun no crea administradores",
+    "esperado": 403,
+    "obtenido": 403,
+    "ok": true
+  },
+  {
+    "prueba": "Administrador lista cuentas",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "Administrador crea cuenta sin SMTP",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "Cuenta nueva puede iniciar sesion",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "Swagger UI disponible",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "OpenAPI generado",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "CORS permite el frontend configurado",
+    "esperado": 200,
+    "obtenido": 200,
+    "ok": true
+  },
+  {
+    "prueba": "CORS rechaza un sitio no configurado",
+    "esperado": 403,
+    "obtenido": 403,
+    "ok": true
+  },
+  {
+    "prueba": "JWT no crea una sesion reutilizable",
+    "esperado": 401,
+    "obtenido": 401,
+    "ok": true
+  },
+  {
+    "prueba": "Test contextLoads del proyecto",
+    "ok": true
+  }
+]

@@ -1,0 +1,35 @@
+@baseUrl = https://
+@codigoUsuario = USUARIO_EXISTENTE
+@clave = CONTRASENA_DE_PRUEBA
+@token = TOKEN
+
+### Debe responder 200 y {"status":"UP"}.
+GET {{baseUrl}}/actuator/health
+
+### Debe responder 200 con un campo token.
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "codigoUsuario": "{{codigoUsuario}}",
+  "clave": "{{clave}}"
+}
+
+### Sin token debe responder 401.
+GET {{baseUrl}}/api/productos
+
+### Con token debe responder 200 y JSON.
+GET {{baseUrl}}/api/productos
+Authorization: Bearer {{token}}
+
+### Lectura de stock.
+GET {{baseUrl}}/api/stock
+Authorization: Bearer {{token}}
+
+### Esta ruta requiere que el token tenga el perfil indicado en ADMIN_ROLE.
+GET {{baseUrl}}/api/usuarios
+Authorization: Bearer {{token}}
+
+### Definicion de la API.
+GET {{baseUrl}}/v3/api-docs
+
