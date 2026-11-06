@@ -67,8 +67,40 @@ public class DataInitializer implements CommandLineRunner {
                 END;
                 $$;
             """);
+
+            jdbcTemplate.execute("""
+                CREATE OR REPLACE FUNCTION public.fn_control_stock_disminuir(p_producto_id integer, p_cantidad numeric)
+                RETURNS boolean
+                LANGUAGE plpgsql AS $$
+                BEGIN
+                    UPDATE public.control_stock
+                    SET 
+                        cantidad_actual = cantidad_actual - p_cantidad,
+                        actualizado_en = NOW()
+                    WHERE producto_id = p_producto_id;
+
+                    RETURN FOUND;
+                END;
+                $$;
+            """);
+
+            jdbcTemplate.execute("""
+                CREATE OR REPLACE FUNCTION public.fn_control_stock_aumentar(p_producto_id integer, p_cantidad numeric)
+                RETURNS boolean
+                LANGUAGE plpgsql AS $$
+                BEGIN
+                    UPDATE public.control_stock
+                    SET 
+                        cantidad_actual = cantidad_actual + p_cantidad,
+                        actualizado_en = NOW()
+                    WHERE producto_id = p_producto_id;
+
+                    RETURN FOUND;
+                END;
+                $$;
+            """);
         } catch (Exception e) {
-            System.err.println("Aviso al inicializar funciones PL/pgSQL de productos: " + e.getMessage());
+            System.err.println("Aviso al inicializar funciones PL/pgSQL: " + e.getMessage());
         }
     }
 }
