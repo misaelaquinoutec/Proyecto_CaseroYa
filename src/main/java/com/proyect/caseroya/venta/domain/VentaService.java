@@ -92,6 +92,11 @@ public class VentaService {
     }
 
     @Transactional(readOnly = true)
+    public List<DocumentoVenta> listarTodas() {
+        return ventaRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
     public List<DocumentoVenta> obtenerReportePorFechas(LocalDate desde, LocalDate hasta) {
         return ventaRepository.findByFechaEmisionBetween(desde, hasta);
     }

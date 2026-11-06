@@ -1,4 +1,4 @@
-package com.proyect.caseroya.cliente.domain;
+ package com.proyect.caseroya.cliente.domain;
 
 import com.proyect.caseroya.cliente.dto.ClienteRequestDto;
 import com.proyect.caseroya.cliente.dto.ClienteResponseDto;

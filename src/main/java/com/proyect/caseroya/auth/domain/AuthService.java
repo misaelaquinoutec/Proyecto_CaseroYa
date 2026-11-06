@@ -8,6 +8,9 @@ import com.proyect.caseroya.config.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+
 @Service
 public class AuthService {
 
@@ -25,11 +28,46 @@ public class AuthService {
         Usuario usuario = usuarioRepository.findByCodigoUsuarioAndActivoTrue(request.getCodigoUsuario())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado o inactivo"));
 
-        if (!passwordEncoder.matches(request.getClave(), usuario.getClave())) {
+        boolean matches = checkPassword(request.getClave(), usuario.getClave());
+
+        if (!matches) {
             throw new RuntimeException("Contraseña incorrecta");
+        }
+
+        if (usuario.getClave() != null && !usuario.getClave().startsWith("$2")) {
+            usuario.setClave(passwordEncoder.encode(request.getClave()));
+            usuarioRepository.save(usuario);
         }
 
         String jwtToken = jwtService.generateToken(usuario.getCodigoUsuario(), usuario.getPerfilId());
         return new AuthResponseDto(jwtToken, usuario.getCodigoUsuario(), usuario.getNombre(), usuario.getPerfilId());
+    }
+
+    private boolean checkPassword(String rawPassword, String storedPassword) {
+        if (storedPassword == null || rawPassword == null) {
+            return false;
+        }
+
+        if (storedPassword.startsWith("$2a$") || storedPassword.startsWith("$2b$") || storedPassword.startsWith("$2y$")) {
+            try {
+                if (passwordEncoder.matches(rawPassword, storedPassword)) {
+                    return true;
+                }
+            } catch (Exception ignored) {}
+        }
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digest = md.digest(rawPassword.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b));
+            }
+            if (sb.toString().equalsIgnoreCase(storedPassword)) {
+                return true;
+            }
+        } catch (Exception ignored) {}
+
+        return rawPassword.equals(storedPassword);
     }
 }

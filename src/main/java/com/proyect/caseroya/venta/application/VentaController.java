@@ -12,9 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/ventas")
-@PreAuthorize("hasRole('ADMIN') or hasRole('CAJERO')")
+@PreAuthorize("hasRole('ADMIN') or hasRole('ADM') or hasRole('CAJERO')")
 public class VentaController {
 
     @Autowired
@@ -47,6 +49,11 @@ public class VentaController {
 
         DocumentoVenta ventaGuardada = ventaService.registrarVenta(venta);
         return ResponseEntity.ok(ventaGuardada);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DocumentoVenta>> listarVentas() {
+        return ResponseEntity.ok(ventaService.listarTodas());
     }
 
     @GetMapping("/{id}")
