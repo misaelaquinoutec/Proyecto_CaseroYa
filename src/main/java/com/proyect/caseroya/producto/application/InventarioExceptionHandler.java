@@ -1,6 +1,7 @@
 package com.proyect.caseroya.producto.application;
 
 import com.proyect.caseroya.stock.application.StockController;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 
+@Hidden
 @RestControllerAdvice(assignableTypes = {ProductoController.class, StockController.class})
 public class InventarioExceptionHandler {
 
