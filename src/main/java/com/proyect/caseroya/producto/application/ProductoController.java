@@ -20,8 +20,13 @@ public class ProductoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Producto>> listar() {
-        return ResponseEntity.ok(productoService.listar());
+    public ResponseEntity<?> listar(
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "size", required = false) Integer size) {
+        if (page == null && size == null) {
+            return ResponseEntity.ok(productoService.listar());
+        }
+        return ResponseEntity.ok(productoService.listarPaginado(page == null ? 0 : page, size == null ? 10 : size));
     }
 
     @GetMapping("/{id}")

@@ -5,7 +5,10 @@ import com.proyect.caseroya.config.exception.RecursoNoEncontradoException;
 import com.proyect.caseroya.event.VentaRealizadaEvent;
 import com.proyect.caseroya.stock.domain.StockService;
 import com.proyect.caseroya.venta.infrastructure.DocumentoVentaRepository;
+import com.proyect.caseroya.config.pagination.PageResponse;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,6 +97,13 @@ public class VentaService {
     @Transactional(readOnly = true)
     public List<DocumentoVenta> listarTodas() {
         return ventaRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<DocumentoVenta> listarPaginado(int page, int size) {
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.min(Math.max(size, 1), PageResponse.MAX_SIZE);
+        return PageResponse.of(ventaRepository.findAll(PageRequest.of(safePage, safeSize, Sort.by("id"))));
     }
 
     @Transactional(readOnly = true)

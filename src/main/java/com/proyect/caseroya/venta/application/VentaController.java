@@ -52,8 +52,13 @@ public class VentaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DocumentoVenta>> listarVentas() {
-        return ResponseEntity.ok(ventaService.listarTodas());
+    public ResponseEntity<?> listarVentas(
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "size", required = false) Integer size) {
+        if (page == null && size == null) {
+            return ResponseEntity.ok(ventaService.listarTodas());
+        }
+        return ResponseEntity.ok(ventaService.listarPaginado(page == null ? 0 : page, size == null ? 10 : size));
     }
 
     @GetMapping("/{id}")

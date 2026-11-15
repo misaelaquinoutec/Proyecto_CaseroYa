@@ -1,5 +1,6 @@
 package com.proyect.caseroya.producto.domain;
 
+import com.proyect.caseroya.config.pagination.PageResponse;
 import com.proyect.caseroya.producto.dto.ProductoRequest;
 import com.proyect.caseroya.producto.infrastructure.ProductoRepository;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,10 @@ public class ProductoService {
 
     public List<Producto> listar() {
         return productoRepository.listar();
+    }
+
+    public PageResponse<Producto> listarPaginado(int page, int size) {
+        return PageResponse.of(productoRepository.listar(), page, size);
     }
 
     public Producto obtenerPorId(Integer id) {
